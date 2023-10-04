@@ -24,15 +24,37 @@ static char *name = "Bilbo";
 module_param(name, charp, S_IRUGO);
 MODULE_PARM_DESC(name, "The name to display in /var/log/kern.log");
 
+//============================================================================================
 //  The device number, automatically set. The message buffer and current message
 //  size. The number of device opens and the device class struct pointers.
 static int    majorNumber;
+//存储字符设备驱动程序的主设备号。主设备号用于标识特定设备驱动程序，允许内核区分不同类型的设备。通常由内核分配。
+
 static char   message[256] = {0};
+//用于存储设备的消息或数据。在这里，数组被初始化为全零
+
 static short  messageSize;
+//message 中的有效数据大小
+
 static int    numberOpens = 0;
+//用于跟踪打开设备文件的次数。每次打开设备文件时，该计数器会递增。
+
 static struct class*  babelClass  = NULL;
+//指向 struct class 结构的指针，用于表示 Linux 内核中的字符设备类。
+//字符设备类用于管理字符设备驱动程序，可以帮助用户空间应用程序与设备驱动程序进行交互。
+
 static struct device* babelDevice = NULL;
+//指向 struct device 结构的指针，用于表示特定的字符设备。它通常与字符设备驱动程序的创建和注册相关。
+
+//主要区别在于：
+//babelClass 代表字符设备类，用于组织和管理一类字符设备驱动程序。
+//babelDevice 代表字符设备的具体实例，每个实例对应一个具体的设备，并用于管理该设备的状态和属性
+
+
 static DEFINE_MUTEX(ioMutex);
+//用于定义一个名为 ioMutex 的互斥锁（mutex）。互斥锁是用于控制多个线程或进程对共享资源的访问的机制。
+
+//============================================================================================
 
 //  Prototypes for our device functions.
 static int     dev_open(struct inode *, struct file *);
