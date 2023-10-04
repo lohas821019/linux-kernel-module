@@ -56,6 +56,11 @@ static DEFINE_MUTEX(ioMutex);
 
 //============================================================================================
 
+
+//inode（索引节点）是文件系统中的一个重要概念，用于管理和维护关于文件和目录的元数据信息。
+//每个文件和目录都有一个唯一的 inode 来标识和描述它。
+//inode 存储了文件的元数据，包括文件类型、文件大小、文件所有者、权限、时间戳等等
+
 //  Prototypes for our device functions.
 static int     dev_open(struct inode *, struct file *);
 static int     dev_release(struct inode *, struct file *);
